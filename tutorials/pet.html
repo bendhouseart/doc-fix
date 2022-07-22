@@ -549,9 +549,33 @@ The results of that extension proposal can be read <a class="reference external"
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install pypet2bids 
 </pre></div>
 </div>
-<p>Now you already have the converter installed and can go ahead and convert your first dataset! In this example, I am converting an image in DICOM format.</p>
+<p>Now you already have the converter installed and can go ahead and convert your first dataset!
+In this example, I am converting an image in DICOM format. It should be noted that pypet2bids
+contains several different tools and is itself a part of the larger PET library PET2BIDS, the
+specific tool I will be using for the folliwing dicom conversion is dcm2niix4pet.</p>
 <p>TODO - continue here after PET2BIDS issue has been fixed.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dcm2niix4pet OpenNeuroPET-Phantoms/source/SiemensBiographPETMR-NRU -d mynewfolder
+</pre></div>
+</div>
+<p>dcm2niix4pet will do it’s best to extract as much information about radiological and blood data from the dicom files in the dcmfolder. However, dcm2niix4pet can’t find information if it isn’t there, it will often be up to you the user to provide some missing informationat the time of conversion. Additional information can be provided via the command line with the <code class="docutils literal notranslate"><span class="pre">--kwargs</span></code> argument in the form of key=pair values. For an idea of what this looks like see below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/OpenNeuroPET-Phantoms/source/SiemensBiographPETMR-NRU -d mynewfolder --kwargs <span class="nv">TimeZero</span><span class="o">=</span>ScanStart 
+<span class="nv">Manufacturer</span><span class="o">=</span>Siemens 
+<span class="nv">ManufacturersModelName</span><span class="o">=</span>Biograph 
+<span class="nv">InstitutionName</span><span class="o">=</span><span class="s2">&quot;Rigshospitalet, NRU, DK&quot;</span>
+<span class="nv">BodyPart</span><span class="o">=</span>Phantom
+<span class="nv">Units</span><span class="o">=</span>Bq/mL
+<span class="nv">TracerName</span><span class="o">=</span>none
+<span class="nv">TracerRadionuclide</span><span class="o">=</span>F18
+<span class="nv">InjectedRadioactivity</span><span class="o">=</span><span class="m">81</span>.24
+<span class="nv">SpecificRadioactivity</span><span class="o">=</span><span class="m">13019</span>.23
+<span class="nv">ModeOfAdministration</span><span class="o">=</span>infusion
+<span class="nv">FrameTimesStart</span><span class="o">=</span><span class="m">0</span>
+<span class="nv">AcquisitionMode</span><span class="o">=</span><span class="s2">&quot;list mode&quot;</span>
+<span class="nv">ImageDecayCorrected</span><span class="o">=</span><span class="nb">true</span>
+<span class="nv">ImageDecayCorrectionTime</span><span class="o">=</span><span class="m">0</span>
+<span class="nv">AttenuationCorrection</span><span class="o">=</span>MR-corrected
+<span class="nv">FrameDuration</span><span class="o">=</span><span class="m">300</span>
+<span class="nv">FrameTimesStart</span><span class="o">=</span><span class="m">0</span>
 </pre></div>
 </div>
 <p>Now you have a dataset in PET BIDS format. You will probably have gotten some warnings relating to the .json sidecar file. Carefully look at them, since they will help you to catch inconsistencies and missing required fields that you need to add in order for the dataset to pass the BIDS validator as well (see below how that’s done).
